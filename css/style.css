@@ -27,6 +27,10 @@
   --font-body: Arial, Helvetica, sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-body);
   color: var(--color-text);
@@ -58,11 +62,12 @@ img {
   display: block;
 }
 
-/* Give every section the same left/right padding and a max width
-   so the page doesn't stretch too wide on big screens */
-header,
-main section,
-footer {
+/* ---------- Layout container ----------
+   header, main sections, and footer stay full-width (so their
+   background color can stretch edge to edge), while everything
+   INSIDE them is wrapped in a .container div that centers the
+   content and caps its width. */
+.container {
   max-width: 1100px;
   margin: 0 auto;
   padding-left: 20px;
@@ -75,7 +80,7 @@ main section {
   border-bottom: 1px solid var(--color-border);
 }
 
-main section > p:first-child {
+main section .container > p:first-child {
   color: var(--color-accent);
   font-weight: 600;
   text-transform: uppercase;
@@ -91,13 +96,17 @@ main section h2 {
 
 /* ---------- Header / Nav (Flexbox) ---------- */
 header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 12px;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--color-border);
 }
 
 header h1 {
@@ -144,7 +153,7 @@ header nav a:hover {
 #hero a {
   display: inline-block;
   padding: 12px 28px;
-  margin: 0 8px;
+  margin: 6px 8px;
   border-radius: 6px;
   font-weight: 600;
 }
@@ -170,18 +179,12 @@ header nav a:hover {
   text-decoration: none;
 }
 
-/* ---------- About (Flexbox) ---------- */
-#about article {
-  display: flex;
+/* ---------- About (Grid) ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
   gap: 40px;
-  align-items: flex-start;
-  margin-bottom: 40px;
-}
-
-#about article img {
-  width: 200px;
-  border-radius: 8px;
-  border: 1px solid var(--color-border);
+  align-items: start;
 }
 
 #about article p {
@@ -207,42 +210,37 @@ header nav a:hover {
 }
 
 /* ---------- Projects (Grid) ---------- */
-#projects {
+.projects-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
 }
 
-#projects > p:first-child,
-#projects > h2 {
-  grid-column: 1 / -1;
-}
-
-#projects article {
+.projects-grid article {
   background-color: var(--color-bg-light);
   border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 24px;
 }
 
-#projects article h3 {
+.projects-grid article h3 {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
-#projects article p {
+.projects-grid article p {
   color: var(--color-text-light);
   margin-bottom: 16px;
 }
 
-#projects article ul {
+.projects-grid article ul {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 14px;
 }
 
-#projects article li {
+.projects-grid article li {
   background-color: #fff;
   border: 1px solid var(--color-border);
   border-radius: 4px;
@@ -251,36 +249,31 @@ header nav a:hover {
   color: var(--color-primary);
 }
 
-/* 2 columns on tablets and up */
+/* 2 columns from tablet size up */
 @media screen and (min-width: 700px) {
-  #projects {
+  .projects-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* ---------- Skills (Grid) ---------- */
-#skills {
+.skills-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
 }
 
-#skills > p:first-child,
-#skills > h2 {
-  grid-column: 1 / -1;
-}
-
-#skills article {
+.skills-grid article {
   border-top: 3px solid var(--color-primary);
   padding-top: 16px;
 }
 
-#skills article h3 {
+.skills-grid article h3 {
   font-size: 18px;
   margin-bottom: 14px;
 }
 
-#skills dt {
+.skills-grid dt {
   font-weight: 600;
   margin-top: 12px;
   margin-bottom: 6px;
@@ -288,45 +281,45 @@ header nav a:hover {
   font-size: 14px;
 }
 
-#skills dt:first-of-type {
+.skills-grid dt:first-of-type {
   margin-top: 0;
 }
 
-#skills dd,
-#skills li {
+.skills-grid dd,
+.skills-grid li {
   color: var(--color-text-light);
   padding: 4px 0;
   font-size: 15px;
 }
 
-/* 2 columns on tablets, 4 columns on desktop */
+/* 2 columns on small tablets, 4 columns on desktop */
 @media screen and (min-width: 600px) {
-  #skills {
+  .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media screen and (min-width: 950px) {
-  #skills {
+  .skills-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 /* ---------- Contact ---------- */
-#contact > p:nth-of-type(2) {
+#contact > .container > p:nth-of-type(2) {
   color: var(--color-text-light);
   max-width: 500px;
   margin-bottom: 30px;
 }
 
-#contact > ul {
+.contact-links {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 40px;
 }
 
-#contact > ul a {
+.contact-links a {
   display: inline-block;
   padding: 8px 18px;
   border: 1px solid var(--color-primary);
@@ -334,7 +327,7 @@ header nav a:hover {
   color: var(--color-primary);
 }
 
-#contact > ul a:hover {
+.contact-links a:hover {
   background-color: var(--color-primary);
   color: #fff;
   text-decoration: none;
@@ -347,15 +340,19 @@ header nav a:hover {
   max-width: 500px;
 }
 
-#contact form label {
-  display: block;
+.form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row label {
   font-weight: 600;
   margin-bottom: 6px;
   font-size: 14px;
 }
 
-#contact form input,
-#contact form textarea {
+.form-row input,
+.form-row textarea {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--color-border);
@@ -364,8 +361,8 @@ header nav a:hover {
   font-size: 15px;
 }
 
-#contact form input:focus,
-#contact form textarea:focus {
+.form-row input:focus,
+.form-row textarea:focus {
   outline: none;
   border-color: var(--color-primary);
 }
@@ -387,7 +384,7 @@ header nav a:hover {
 }
 
 /* ---------- Footer ---------- */
-footer {
+.footer-inner {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -401,29 +398,62 @@ footer {
 /* =========================================================
    Media Queries - mobile friendly adjustments
    ========================================================= */
+
+/* Tablets and small laptops */
+@media screen and (max-width: 900px) {
+  main section h2 {
+    font-size: 28px;
+  }
+}
+
+/* Large phones / small tablets */
 @media screen and (max-width: 700px) {
-  #about article {
-    flex-direction: column;
+  .about-grid {
+    grid-template-columns: 1fr;
   }
 
-  #about article img {
+  .about-grid img {
     width: 140px;
   }
 
-  header {
+  .header-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
+
+  main section {
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+
+  #hero {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
 }
 
+/* Phones */
 @media screen and (max-width: 480px) {
+  header nav ul {
+    gap: 14px;
+  }
+
   #hero a {
     display: block;
-    margin: 10px 0;
+    margin: 8px 0;
   }
 
   main section h2 {
-    font-size: 26px;
+    font-size: 24px;
+  }
+
+  #hero p:nth-of-type(2) {
+    font-size: 18px;
+  }
+
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }
