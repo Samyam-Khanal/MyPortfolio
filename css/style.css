@@ -110,7 +110,13 @@ header {
 }
 
 header h1 {
-  font-size: 22px;
+  line-height: 0;
+}
+
+header h1 .logo {
+  height: 40px;
+  width: auto;
+  display: block;
 }
 
 header nav ul {
